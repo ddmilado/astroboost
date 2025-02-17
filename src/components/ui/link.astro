@@ -23,10 +23,10 @@ const sizes = {
 };
 
 const styles = {
-  outline: "bg-white border-2 border-black hover:bg-gray-100 text-black ",
-  primary: "bg-black text-white hover:bg-gray-800  border-2 border-transparent",
-  inverted: "bg-white text-black   border-2 border-transparent",
-  muted: "bg-gray-100 hover:bg-gray-200   border-2 border-transparent",
+  outline: "bg-white border-2 border-primary text-primary hover:bg-gray-50",
+  primary: "bg-primary text-white hover:bg-primary/90 border-2 border-transparent",
+  inverted: "bg-white text-primary border-2 border-transparent hover:bg-gray-50",
+  muted: "bg-gray-100 hover:bg-gray-200 border-2 border-transparent",
 };
 ---
 
@@ -34,7 +34,7 @@ const styles = {
   href={href}
   {...rest}
   class:list={[
-    "rounded text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200",
+    "rounded-full text-center transition focus-visible:ring-2 ring-offset-2 ring-primary/20",
     block && "w-full",
     sizes[size],
     styles[style],

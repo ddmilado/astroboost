@@ -5,14 +5,9 @@ import Button from "./ui/button.astro";
 <!-- To make this contact form work, create your free access key from https://web3forms.com/
      Then you will get all form submissions in your email inbox. -->
 <form
-  action="https://api.web3forms.com/submit"
-  method="POST"
-  id="form"
+  id="contactForm"
   class="needs-validation"
   novalidate>
-  <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
-  <!-- Create your free access key from https://web3forms.com/ -->
-  <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
   <div class="mb-5">
     <input
       type="text"
@@ -20,6 +15,7 @@ import Button from "./ui/button.astro";
       required
       class="w-full px-4 py-3 border-2 placeholder:text-gray-800 rounded-md outline-none focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
       name="name"
+      id="name"
     />
     <div class="empty-feedback invalid-feedback text-red-400 text-sm mt-1">
       Please provide your full name.
@@ -27,7 +23,7 @@ import Button from "./ui/button.astro";
   </div>
   <div class="mb-5">
     <label for="email_address" class="sr-only">Email Address</label><input
-      id="email_address"
+      id="email"
       type="email"
       placeholder="Email Address"
       name="email"
@@ -44,6 +40,7 @@ import Button from "./ui/button.astro";
   <div class="mb-3">
     <textarea
       name="message"
+      id="message"
       required
       placeholder="Your Message"
       class="w-full px-4 py-3 border-2 placeholder:text-gray-800 rounded-md outline-none h-36 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
@@ -76,52 +73,45 @@ import Button from "./ui/button.astro";
   }
 </style>
 
-<script is:inline>
-  const form = document.getElementById("form");
-  const result = document.getElementById("result");
+<script>
+  import { submitContactForm } from '../lib/appwrite';
 
-  form.addEventListener("submit", function (e) {
+  const form = document.getElementById("contactForm") as HTMLFormElement;
+  const result = document.getElementById("result") as HTMLDivElement;
+
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
     form.classList.add("was-validated");
+    
     if (!form.checkValidity()) {
       form.querySelectorAll(":invalid")[0].focus();
       return;
     }
-    const formData = new FormData(form);
-    const object = Object.fromEntries(formData);
-    const json = JSON.stringify(object);
+
+    const nameInput = document.getElementById('name') as HTMLInputElement;
+    const emailInput = document.getElementById('email') as HTMLInputElement;
+    const messageInput = document.getElementById('message') as HTMLTextAreaElement;
 
     result.innerHTML = "Sending...";
 
-    fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: json,
-    })
-      .then(async (response) => {
-        let json = await response.json();
-        if (response.status == 200) {
-          result.classList.add("text-green-500");
-          result.innerHTML = json.message;
-        } else {
-          console.log(response);
-          result.classList.add("text-red-500");
-          result.innerHTML = json.message;
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        result.innerHTML = "Something went wrong!";
-      })
-      .then(function () {
+    try {
+      const response = await submitContactForm({
+        name: nameInput.value,
+        email: emailInput.value,
+        message: messageInput.value,
+      });
+
+      if (response.success) {
+        result.innerHTML = "Message sent successfully!";
+        result.className = "mt-3 text-center text-green-600";
         form.reset();
         form.classList.remove("was-validated");
-        setTimeout(() => {
-          result.style.display = "none";
-        }, 5000);
-      });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      result.innerHTML = "Failed to send message. Please try again.";
+      result.className = "mt-3 text-center text-red-600";
+    }
   });
 </script>

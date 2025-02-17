@@ -12,6 +12,14 @@ module.exports = {
           ...defaultTheme.fontFamily.sans,
         ],
       },
+      colors: {
+        primary: {
+          DEFAULT: '#7C3AED', // Brighter purple (violet-600)
+        },
+      },
+      borderRadius: {
+        'full': '9999px',
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

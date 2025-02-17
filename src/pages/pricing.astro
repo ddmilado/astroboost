@@ -6,42 +6,37 @@ import PricingCard from "@components/pricing.astro";
 
 const pricing = [
   {
-    name: "Personal",
-    price: "Free",
+    name: "Starter",
+    price: "$499",
     popular: false,
     features: [
-      "Lifetime free",
-      "Up to 3 users",
-      "Unlimited Pages",
-      "Astro Sub domain",
-      "Basic Integrations",
-      "Community Support",
+      "Website Development",
+      "Basic Digital Marketing",
+      "5 Social Media Posts",
+      "Monthly Performance Report",
+      "Email Support",
+      "Basic SEO Setup",
     ],
     button: {
       text: "Get Started",
-      link: "/",
+      link: "/contact",
     },
   },
   {
-    name: "Startup",
-    price: {
-      monthly: "$19",
-      annual: "$16",
-      discount: "10%",
-      original: "$24",
-    },
+    name: "Business",
+    price: "$999",
     popular: true,
     features: [
-      "All Free Features",
-      "Up to 20 users",
-      "20 Custom domains",
-      "Unlimited Collaborators",
-      "Advanced Integrations",
+      "Everything in Starter",
+      "Mobile App Development",
+      "20 Social Media Posts",
+      "Advanced SEO Optimization",
+      "Weekly Performance Reports",
       "Priority Support",
     ],
     button: {
       text: "Get Started",
-      link: "#",
+      link: "/contact",
     },
   },
   {
@@ -49,12 +44,12 @@ const pricing = [
     price: "Custom",
     popular: false,
     features: [
-      "All Pro Features",
-      "Unlimited Custom domains",
-      "99.99% Uptime SLA",
-      "SAML & SSO Integration",
+      "Everything in Business",
+      "Custom Solutions",
       "Dedicated Account Manager",
-      "24/7 Phone Support",
+      "24/7 Priority Support",
+      "AI Integration",
+      "Custom Analytics",
     ],
     button: {
       text: "Contact us",
@@ -62,19 +57,98 @@ const pricing = [
     },
   },
 ];
+
+const comparisonTable = [
+  {
+    feature: "Website Development",
+    starter: "Basic Website",
+    business: "Advanced Website",
+    enterprise: "Custom Solution",
+  },
+  {
+    feature: "Mobile App Development",
+    starter: "—",
+    business: "Basic App",
+    enterprise: "Full-Featured App",
+  },
+  {
+    feature: "Digital Marketing",
+    starter: "Basic",
+    business: "Advanced",
+    enterprise: "Custom Strategy",
+  },
+  {
+    feature: "Social Media Management",
+    starter: "5 Posts/Month",
+    business: "20 Posts/Month",
+    enterprise: "Unlimited",
+  },
+  {
+    feature: "SEO Optimization",
+    starter: "Basic Setup",
+    business: "Advanced",
+    enterprise: "Enterprise-Grade",
+  },
+  {
+    feature: "Performance Reports",
+    starter: "Monthly",
+    business: "Weekly",
+    enterprise: "Daily + Custom",
+  },
+  {
+    feature: "Support",
+    starter: "Email",
+    business: "Priority",
+    enterprise: "24/7 Dedicated",
+  },
+  {
+    feature: "AI Integration",
+    starter: "—",
+    business: "Basic",
+    enterprise: "Advanced",
+  },
+];
 ---
 
-<Layout title="Pricing">
+<Layout title="Pricing - AstroBoost">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">Pricing</Fragment>
+      <Fragment slot="title">Pricing Plans</Fragment>
       <Fragment slot="desc">
-        Simple & Predictable pricing. No Surprises.
+        Choose the perfect plan for your business growth
       </Fragment>
     </Sectionhead>
 
     <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
       {pricing.map((item) => <PricingCard plan={item} />)}
+    </div>
+
+    <div class="mt-24">
+      <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center mb-8">
+        Compare Plans
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-gray-100">
+              <th class="p-4 text-left">Features</th>
+              <th class="p-4 text-center">Starter</th>
+              <th class="p-4 text-center">Business</th>
+              <th class="p-4 text-center">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparisonTable.map((row) => (
+              <tr class="border-b border-gray-200">
+                <td class="p-4 font-medium">{row.feature}</td>
+                <td class="p-4 text-center">{row.starter}</td>
+                <td class="p-4 text-center">{row.business}</td>
+                <td class="p-4 text-center">{row.enterprise}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   </Container>
 </Layout>
